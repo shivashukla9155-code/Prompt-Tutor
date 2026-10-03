@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Tutor — Master the Art of AI Prompting</title>
+  <meta name="description" content="Learn, score, and optimize your AI prompts. Compare user prompts vs AI-enhanced prompts with side-by-side execution and real image generation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Cosmic Canvas & Starfield -->
+  <div class="cosmic-background">
+    <div class="cosmic-grid"></div>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+    <canvas id="starsCanvas"></canvas>
+  </div>
+
+  <!-- ============================================================
+       PAGE 1: WELCOME & NAME ENTRY
+       ============================================================ -->
+  <main id="welcomePage">
+    <div class="welcome-content">
+      <div class="brand-badge">
+        <span class="pulse-dot"></span>
+        Prompt Tutor Academy
+      </div>
+
+      <h1 class="welcome-title">Master the Art of AI Prompt Engineering</h1>
+      <p class="welcome-subtitle">
+        Transform vague ideas into high-precision, production-grade AI prompts. Learn, score, and see live side-by-side output comparisons in code, text, and generative visuals.
+      </p>
+
+      <div class="name-input-group">
+        <label for="userNameInput" class="name-label">ENTER YOUR NAME TO BEGIN</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <input 
+            type="text" 
+            id="userNameInput" 
+            class="welcome-input" 
+            placeholder="e.g. Alex Hunter, Dev Champion..." 
+            autocomplete="name" 
+            maxlength="40"
+            autofocus
+          />
+        </div>
+      </div>
+
+      <!-- Dynamic Real-Time Greeting -->
+      <div id="dynamicGreeting" class="dynamic-greeting"></div>
+
+      <!-- Launch Button -->
+      <button id="launchAcademyBtn" class="launch-btn" type="button">
+        <span>Continue to Academy</span>
+        <span class="btn-rocket-icon">🚀</span>
+      </button>
+    </div>
+
+    <!-- Founders & Team Card (Bottom Right of Page 1) -->
+    <aside class="team-credits-card" aria-label="Founders and Team Members">
+      <div class="team-card-header">
+        <span class="team-badge-tag">
+          <span>⚡</span> Leadership & Team
+        </span>
+        <span style="font-size: 0.7rem; color: #94a3b8;">Prompt Tutor v2.0</span>
+      </div>
+
+      <!-- Founder Block -->
+      <div class="founder-block">
+        <div class="founder-avatar" title="Founder">SS</div>
+        <div class="founder-details">
+          <span class="founder-role">★ Founder & Creator</span>
+          <span class="founder-name">Shivprakash Shukla</span>
+        </div>
+      </div>
+
+      <!-- Members Section -->
+      <div class="members-section">
+        <span class="members-title">Core Team Members</span>
+        <div class="members-chips">
+          <div class="member-chip">
+            <span class="member-chip-dot"></span>
+            <span>Subhiksha Singh</span>
+          </div>
+          <div class="member-chip">
+            <span class="member-chip-dot"></span>
+            <span>Saniya Pandey</span>
+          </div>
+          <div class="member-chip">
+            <span class="member-chip-dot"></span>
+            <span>Shiva Shukla</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ============================================================
+       ROCKET LAUNCH ANIMATION OVERLAY
+       ============================================================ -->
+  <div id="rocketLaunchOverlay" aria-hidden="true">
+    <div class="launch-stage">
+      <div class="rocket-wrapper" id="rocketWrapper">
+        <!-- High-Detail Futuristic SVG Rocket -->
+        <svg class="rocket-svg-container" viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Rocket Nosecone -->
+          <path d="M50 0 C42 20 30 50 30 90 L70 90 C70 50 58 20 50 0 Z" fill="url(#rocketBodyGrad)" stroke="#818cf8" stroke-width="1.5"/>
+          <!-- Cockpit Window -->
+          <circle cx="50" cy="45" r="11" fill="#090d16" stroke="#38bdf8" stroke-width="2"/>
+          <circle cx="50" cy="45" r="8" fill="url(#windowGrad)"/>
+          <circle cx="47" cy="42" r="3" fill="#ffffff" opacity="0.8"/>
+          <!-- Wings / Fins -->
+          <path d="M30 75 L12 115 L30 110 Z" fill="#4f46e5" stroke="#818cf8" stroke-width="1"/>
+          <path d="M70 75 L88 115 L70 110 Z" fill="#4f46e5" stroke="#818cf8" stroke-width="1"/>
+          <!-- Center Engine Thruster Nozzle -->
+          <path d="M40 90 L36 104 L64 104 L60 90 Z" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+          <!-- Hull Accents -->
+          <line x1="50" y1="58" x2="50" y2="85" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="50" cy="72" r="2.5" fill="#a855f7"/>
+
+          <!-- Gradients -->
+          <defs>
+            <linearGradient id="rocketBodyGrad" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="60%" stop-color="#c7d2fe"/>
+              <stop offset="100%" stop-color="#818cf8"/>
+            </linearGradient>
+            <linearGradient id="windowGrad" x1="45" y1="40" x2="55" y2="50" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Exhaust Flames Plume -->
+        <div class="rocket-flames" id="rocketFlames"></div>
+      </div>
+
+      <!-- Launch Status Floating Banner -->
+      <div class="launch-status-card">
+        <div class="launch-status-title" id="launchStatusTitle">INITIALIZING SYSTEMS...</div>
+        <div class="launch-status-subtitle" id="launchStatusSubtitle">Calibrating neural engines</div>
+      </div>
+    </div>
+
+    <!-- Warp Speed Flash Effect -->
+    <div class="warp-flash" id="warpFlash"></div>
+  </div>
+
+  <!-- ============================================================
+       PAGE 2: MAIN PROMPT TUTOR APPLICATION WORKSPACE
+       ============================================================ -->
+  <div id="mainAppPage">
+    <!-- Sticky App Header -->
+    <header class="app-header">
+      <div class="header-brand" id="brandHomeBtn">
+        <div class="header-brand-icon">⚡</div>
+        <div>
+          <span class="header-brand-name">Prompt Tutor</span>
+          <span class="header-brand-tag">ACADEMY</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" aria-label="Main Navigation">
+        <button class="nav-tab-btn active" data-module="moduleCoach">
+          <span>📝</span> Text & Code Coach
+        </button>
+        <button class="nav-tab-btn" data-module="moduleImages">
+          <span>🎨</span> Image Studio
+        </button>
+        <button class="nav-tab-btn" data-module="moduleMasterclass">
+          <span>📚</span> Prompt Formulas
+        </button>
+        <button class="nav-tab-btn" data-module="moduleArena">
+          <span>🏆</span> Challenges Arena
+        </button>
+      </nav>
+
+      <!-- User and Action Controls -->
+      <div class="header-actions">
+        <div class="user-badge-chip">
+          <div class="user-avatar-mini" id="userInitials">P</div>
+          <span>Engineer: <strong id="userDisplayName" style="color:#ffffff;">Explorer</strong></span>
+        </div>
+
+        <button class="icon-btn" id="soundToggleBtn" title="Toggle Sound FX" aria-label="Toggle Sound Effects">🔊</button>
+        <button class="icon-btn" id="apiModalBtn" title="API Settings (Gemini)" aria-label="API Settings">⚙️</button>
+      </div>
+    </header>
+
+    <!-- App Main Container -->
+    <div class="app-container">
+
+      <!-- ========================================================
+           MODULE 1: TEXT & CODE PROMPT COACH & SCORER
+           ======================================================== -->
+      <section id="moduleCoach" class="module-view active">
+        <div class="section-intro">
+          <span class="section-tag"><span>🎯</span> Prompt Optimizer & Scorer</span>
+          <h2 class="section-title">Upgrade & Compare Any Prompt</h2>
+          <p class="section-description">
+            Type any prompt below (e.g. <em>"make a calculator"</em>). Our AI Tutor evaluates your prompt, calculates a multi-dimensional score, suggests an optimized high-precision prompt, and demonstrates why better prompting yields superior outputs.
+          </p>
+        </div>
+
+        <div class="prompt-coach-grid">
+          <!-- Prompt Input Card -->
+          <div class="prompt-input-card">
+            <div class="input-card-header">
+              <div class="card-title-group">
+                <span class="card-title-icon">✏️</span>
+                <span class="card-title-text">Your Raw Prompt</span>
+              </div>
+
+              <!-- Category Pills -->
+              <div class="category-pills">
+                <button class="category-pill active" data-category="all">All Domains</button>
+                <button class="category-pill" data-category="coding">Coding & Web</button>
+                <button class="category-pill" data-category="writing">Creative Writing</button>
+                <button class="category-pill" data-category="career">Business & Career</button>
+                <button class="category-pill" data-category="science">STEM & Academics</button>
+              </div>
+            </div>
+
+            <!-- Textarea -->
+            <div class="prompt-textarea-wrapper">
+              <textarea 
+                id="promptInput" 
+                class="prompt-textarea" 
+                placeholder="Type your prompt here... (e.g. 'make a calculator', 'write a python web scraper', 'write an email asking for a raise')..."
+              >make a calculator</textarea>
+
+              <div class="textarea-footer">
+                <span id="promptWordCount">3 words</span>
+                <span id="promptCharCount">17 chars</span>
+              </div>
+            </div>
+
+            <!-- Quick Example Chips -->
+            <div class="quick-examples">
+              <div class="quick-examples-title">
+                <span>💡 Quick Samples (Click to test):</span>
+              </div>
+              <div class="example-chips">
+                <button class="example-chip" data-prompt="make a calculator">
+                  <span>🧮</span> make a calculator
+                </button>
+                <button class="example-chip" data-prompt="write a python web scraper">
+                  <span>🕷️</span> write a python web scraper
+                </button>
+                <button class="example-chip" data-prompt="explain quantum computing">
+                  <span>⚛️</span> explain quantum computing
+                </button>
+                <button class="example-chip" data-prompt="create a flappy bird game">
+                  <span>🎮</span> create a flappy bird game
+                </button>
+                <button class="example-chip" data-prompt="write an email to ask for a raise">
+                  <span>💼</span> write an email to ask for a raise
+                </button>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-row">
+              <div style="display: flex; gap: 0.75rem;">
+                <button id="analyzePromptBtn" class="analyze-btn" type="button">
+                  <span>Analyze & Score Prompt</span>
+                  <span>⚡</span>
+                </button>
+                <button id="clearPromptBtn" class="clear-btn" type="button">Clear</button>
+              </div>
+              <span style="font-size: 0.85rem; color: var(--text-dim);">Evaluates Clarity, Role, Constraints & Formatting</span>
+            </div>
+          </div>
+
+          <!-- ====================================================
+               RESULTS DASHBOARD
+               ==================================================== -->
+          <div id="resultsDashboard" class="results-dashboard">
+
+            <!-- Score Overview Grid -->
+            <div class="score-overview-grid">
+              <!-- Circular Score Panel -->
+              <div class="main-score-panel">
+                <div class="score-radial-wrapper">
+                  <svg class="score-radial-svg" viewBox="0 0 160 160">
+                    <circle class="score-radial-bg" cx="80" cy="80" r="70" />
+                    <circle id="scoreRadialProgress" class="score-radial-progress" cx="80" cy="80" r="70" />
+                  </svg>
+                  <div class="score-radial-number">
+                    <span id="scoreNumValue" class="score-num-value">0</span>
+                    <span class="score-num-max">/ 100 PTS</span>
+                  </div>
+                </div>
+                <div id="scoreVerdictBadge" class="score-verdict-badge verdict-low">Needs Work</div>
+              </div>
+
+              <!-- Metric Breakdown Bars -->
+              <div class="metric-breakdown-panel">
+                <div class="metric-item">
+                  <div class="metric-header">
+                    <span class="metric-title">🎯 Clarity & Goal Specificity</span>
+                    <span id="valClarity" class="metric-score-value">0/25</span>
+                  </div>
+                  <div class="metric-bar-track">
+                    <div id="barClarity" class="metric-bar-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div class="metric-item">
+                  <div class="metric-header">
+                    <span class="metric-title">🎭 Persona & Role Definition</span>
+                    <span id="valPersona" class="metric-score-value">0/25</span>
+                  </div>
+                  <div class="metric-bar-track">
+                    <div id="barPersona" class="metric-bar-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div class="metric-item">
+                  <div class="metric-header">
+                    <span class="metric-title">⚙️ Constraints, Stack & Validations</span>
+                    <span id="valConstraints" class="metric-score-value">0/25</span>
+                  </div>
+                  <div class="metric-bar-track">
+                    <div id="barConstraints" class="metric-bar-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div class="metric-item">
+                  <div class="metric-header">
+                    <span class="metric-title">📋 Output Formatting & Edge Cases</span>
+                    <span id="valGuidance" class="metric-score-value">0/25</span>
+                  </div>
+                  <div class="metric-bar-track">
+                    <div id="barGuidance" class="metric-bar-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Coach Critique Card -->
+            <div class="coach-critique-card">
+              <div class="critique-header">
+                <span>🧠</span>
+                <span>AI Tutor Diagnostic Critique</span>
+              </div>
+              <ul id="coachCritiqueList" class="critique-list">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+
+            <!-- Enhanced "Better Prompt" Card -->
+            <div class="better-prompt-card">
+              <div class="better-prompt-header">
+                <div class="better-prompt-title">
+                  <span>✨</span>
+                  <span>AI Recommended "Better Prompt"</span>
+                </div>
+                <div class="prompt-tags-row">
+                  <span class="enhancement-tag">Role Engineered</span>
+                  <span class="enhancement-tag">Edge Cases Handled</span>
+                  <span class="enhancement-tag">Validations Added</span>
+                  <span class="enhancement-tag">Deliverables Defined</span>
+                </div>
+              </div>
+
+              <!-- Better Prompt Text Area -->
+              <div id="betterPromptContent" class="better-prompt-content-box"></div>
+
+              <div class="better-prompt-actions">
+                <div style="display: flex; gap: 0.75rem;">
+                  <button id="copyBetterPromptBtn" class="btn-secondary" type="button">
+                    <span>📋</span> Copy Better Prompt
+                  </button>
+                  <button id="tryBetterPromptBtn" class="btn-secondary" type="button">
+                    <span>🔄</span> Load into Prompt Box
+                  </button>
+                </div>
+                <button id="toggleLivePreviewBtn" class="btn-secondary" style="display:none; color: var(--accent-cyan); border-color: rgba(6,182,212,0.4);" type="button">
+                  ▶ Run Live Interactive Preview
+                </button>
+              </div>
+
+              <!-- Live Interactive Preview Box (For Web Calculators/Apps) -->
+              <div id="livePreviewContainer" class="live-preview-box">
+                <iframe id="livePreviewFrame" class="live-preview-frame" sandbox="allow-scripts" title="Interactive App Preview"></iframe>
+              </div>
+            </div>
+
+            <!-- ====================================================
+                 DUAL OUTPUT EXECUTION (SIDE-BY-SIDE COMPARISON)
+                 ==================================================== -->
+            <div class="dual-output-section">
+              <div class="dual-output-header">
+                <div>
+                  <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff;">
+                    Dual Output Execution Comparison
+                  </h3>
+                  <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    See the dramatic difference in what an AI generates when given a raw prompt vs our engineered better prompt.
+                  </p>
+                </div>
+
+                <!-- View Toggle Buttons -->
+                <div class="output-view-toggle">
+                  <button id="viewToggleSplit" class="view-toggle-btn active">Split View</button>
+                  <button id="viewToggleStacked" class="view-toggle-btn">Stacked View</button>
+                </div>
+              </div>
+
+              <div id="dualOutputGrid" class="dual-output-grid">
+                <!-- Panel 1: Output from User's Raw Prompt -->
+                <div class="output-panel user-output-panel">
+                  <div class="output-panel-header">
+                    <div class="output-panel-title">
+                      <span class="user-badge">⚠️ Output: User's Prompt</span>
+                    </div>
+                    <span style="font-size: 0.75rem; color: #f87171; font-weight: 600;">Basic • Missing Context</span>
+                  </div>
+                  <pre id="userOutputContent" class="output-content-area"></pre>
+                  <div class="output-panel-footer">
+                    <span>Outcome: Generic, unstyled, crashes on division by zero</span>
+                    <span>Score: Low</span>
+                  </div>
+                </div>
+
+                <!-- Panel 2: Output from Better Prompt -->
+                <div class="output-panel better-output-panel">
+                  <div class="output-panel-header">
+                    <div class="output-panel-title">
+                      <span class="better-badge">⚡ Output: Better Prompt</span>
+                    </div>
+                    <span style="font-size: 0.75rem; color: #34d399; font-weight: 600;">Production Grade • Fully Handled</span>
+                  </div>
+                  <pre id="betterOutputContent" class="output-content-area"></pre>
+                  <div class="output-panel-footer">
+                    <span>Outcome: Modular, validated, keyboard support, responsive</span>
+                    <span style="color:#34d399; font-weight: 700;">Score: 95/100</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           MODULE 2: IMAGE PROMPT STUDIO
+           ======================================================== -->
+      <section id="moduleImages" class="module-view">
+        <div class="section-intro">
+          <span class="section-tag"><span>🎨</span> Generative Visuals Studio</span>
+          <h2 class="section-title">Image Prompt Enhancement & Dual Generation</h2>
+          <p class="section-description">
+            Experience how photographic directives (lighting, 35mm lenses, octane rendering, volumetric atmosphere) transform flat visuals into museum-grade digital artwork.
+          </p>
+        </div>
+
+        <div class="image-studio-container">
+          <!-- Input Card -->
+          <div class="image-input-card">
+            <div class="card-title-group" style="margin-bottom: 1rem;">
+              <span class="card-title-icon">🖼️</span>
+              <span class="card-title-text">Define Your Visual Subject</span>
+            </div>
+
+            <!-- Style Selector Chips -->
+            <div class="image-style-selectors">
+              <span style="font-size: 0.82rem; color: var(--text-dim); display: flex; align-items: center; margin-right: 0.5rem;">Target Style:</span>
+              <button class="style-chip active" data-style="cinematic">Cinematic 35mm</button>
+              <button class="style-chip" data-style="photorealistic">Hyper-Realistic</button>
+              <button class="style-chip" data-style="cyberpunk">Cyberpunk Sci-Fi</button>
+              <button class="style-chip" data-style="3d-render">Pixar / 3D Octane</button>
+              <button class="style-chip" data-style="anime">Makoto Shinkai Anime</button>
+              <button class="style-chip" data-style="watercolor">Fine Watercolor</button>
+            </div>
+
+            <!-- Input Box -->
+            <div class="prompt-textarea-wrapper">
+              <textarea 
+                id="imagePromptInput" 
+                class="prompt-textarea" 
+                style="min-height: 85px;"
+                placeholder="Enter an image prompt... (e.g. 'a cat in space', 'futuristic sports car', 'cyberpunk city at dusk')..."
+              >a cat in space</textarea>
+            </div>
+
+            <!-- Action Button -->
+            <div class="action-row">
+              <button id="generateImagesBtn" class="analyze-btn" type="button">
+                <span>Generate & Compare Visuals</span>
+                <span>🎨</span>
+              </button>
+              <span style="font-size: 0.85rem; color: var(--text-dim);">Live AI image generation via Pollinations Diffusion</span>
+            </div>
+          </div>
+
+          <!-- Dual Generated Images Grid -->
+          <div id="imageResultsGrid" class="dual-images-grid" style="display: none;">
+            <!-- Image Card 1: User's Prompt -->
+            <div class="image-card user-image-card">
+              <div class="image-card-header">
+                <div class="image-card-title">
+                  <span style="color: #f87171;">⚠️ User's Raw Prompt Image</span>
+                </div>
+                <span class="score-verdict-badge verdict-low">Raw • 35 Pts</span>
+              </div>
+
+              <div class="image-display-frame">
+                <img id="userGeneratedImage" class="generated-image" alt="User's Prompt Image" />
+                <div id="userImageSpinner" class="image-loading-spinner">
+                  <div class="spinner-ring"></div>
+                  <span>Synthesizing Image...</span>
+                </div>
+              </div>
+
+              <div class="image-prompt-details">
+                <span class="prompt-details-label">Prompt Used:</span>
+                <p id="userImagePromptText" class="prompt-details-text"></p>
+                <div style="font-size: 0.8rem; color: #f87171; margin-top: auto;">
+                  ⚠️ Lacks camera focal length, lighting mood, color grading, and texture specifics.
+                </div>
+              </div>
+            </div>
+
+            <!-- Image Card 2: AI Better Prompt -->
+            <div class="image-card better-image-card">
+              <div class="image-card-header">
+                <div class="image-card-title">
+                  <span style="color: #38bdf8;">✨ AI Enhanced Prompt Image</span>
+                </div>
+                <span class="score-verdict-badge verdict-high">Masterpiece • 95 Pts</span>
+              </div>
+
+              <div class="image-display-frame">
+                <img id="betterGeneratedImage" class="generated-image" alt="AI Enhanced Prompt Image" />
+                <div id="betterImageSpinner" class="image-loading-spinner">
+                  <div class="spinner-ring"></div>
+                  <span>Rendering Masterpiece...</span>
+                </div>
+              </div>
+
+              <div class="image-prompt-details">
+                <span class="prompt-details-label">AI Enhanced Prompt:</span>
+                <p id="betterImagePromptText" class="prompt-details-text" style="border-color: rgba(6,182,212,0.3); color: #bae6fd;"></p>
+
+                <!-- What was enhanced -->
+                <span class="prompt-details-label" style="margin-top: 0.5rem;">Key Enhancements Added:</span>
+                <ul id="imageImprovementsList" style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.82rem; color: #34d399;"></ul>
+
+                <button id="copyBetterImagePromptBtn" class="btn-secondary" style="margin-top: 0.75rem;" type="button">
+                  📋 Copy Enhanced Image Prompt
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           MODULE 3: PROMPT FORMULAS & MASTERCLASS
+           ======================================================== -->
+      <section id="moduleMasterclass" class="module-view">
+        <div class="section-intro">
+          <span class="section-tag"><span>📚</span> Architecture & Frameworks</span>
+          <h2 class="section-title">The Prompt Engineer's Formula Handbook</h2>
+          <p class="section-description">
+            Top prompting frameworks used by AI researchers, prompt engineers, and developers worldwide to achieve consistent, hallucination-free outputs.
+          </p>
+        </div>
+
+        <div class="masterclass-grid">
+          <!-- Formula 1: RTF -->
+          <div class="formula-card">
+            <div class="formula-header">
+              <div class="formula-icon">🎯</div>
+              <div>
+                <span class="formula-badge">Foundation Framework</span>
+                <h3 class="formula-title">The RTF Framework</h3>
+              </div>
+            </div>
+            <p class="formula-desc">The simplest and highest-leverage formula for 90% of everyday AI tasks.</p>
+            <div class="formula-breakdown">
+              <div class="formula-step">
+                <span class="formula-step-tag">R = Role</span>
+                <span class="formula-step-text">"Act as a Principal Python Cloud Architect"</span>
+              </div>
+              <div class="formula-step">
+                <span class="formula-step-tag">T = Task</span>
+                <span class="formula-step-text">"Design an automated data ingestion pipeline with retries"</span>
+              </div>
+              <div class="formula-step">
+                <span class="formula-step-tag">F = Format</span>
+                <span class="formula-step-text">"Provide as a Markdown table comparing 3 AWS services with pros/cons"</span>
+              </div>
+            </div>
+            <div class="formula-example-box">
+              <code>Prompt: "Act as [Role]. I need you to [Task]. Present the output in [Format]."</code>
+            </div>
+          </div>
+
+          <!-- Formula 2: CLEAR -->
+          <div class="formula-card">
+            <div class="formula-header">
+              <div class="formula-icon">⚡</div>
+              <div>
+                <span class="formula-badge">Advanced Engineering</span>
+                <h3 class="formula-title">The CLEAR Model</h3>
+              </div>
+            </div>
+            <p class="formula-desc">Engineered for complex software features, technical docs, and business strategy.</p>
+            <div class="formula-breakdown">
+              <div class="formula-step"><span class="formula-step-tag">C</span><span class="formula-step-text">Context: Background situation & goals</span></div>
+              <div class="formula-step"><span class="formula-step-tag">L</span><span class="formula-step-text">Limitations: Strict constraints & boundaries</span></div>
+              <div class="formula-step"><span class="formula-step-tag">E</span><span class="formula-step-text">Examples: 1 or 2 reference inputs/outputs</span></div>
+              <div class="formula-step"><span class="formula-step-tag">A</span><span class="formula-step-text">Action: The exact verb of what to produce</span></div>
+              <div class="formula-step"><span class="formula-step-tag">R</span><span class="formula-step-text">Review: Self-critique before finalizing</span></div>
+            </div>
+            <div class="formula-example-box">
+              <code>"Review your draft against performance benchmarks before replying."</code>
+            </div>
+          </div>
+
+          <!-- Formula 3: Chain of Thought -->
+          <div class="formula-card">
+            <div class="formula-header">
+              <div class="formula-icon">🧠</div>
+              <div>
+                <span class="formula-badge">Reasoning Accelerant</span>
+                <h3 class="formula-title">Chain-of-Thought (CoT)</h3>
+              </div>
+            </div>
+            <p class="formula-desc">Dramatically decreases math and logic hallucinations by forcing step-by-step deduction.</p>
+            <div class="formula-breakdown">
+              <div class="formula-step"><span class="formula-step-tag">Step 1</span><span class="formula-step-text">"Think step-by-step through the logic first."</span></div>
+              <div class="formula-step"><span class="formula-step-tag">Step 2</span><span class="formula-step-text">"State your intermediate reasoning in &lt;thinking&gt; tags."</span></div>
+              <div class="formula-step"><span class="formula-step-tag">Step 3</span><span class="formula-step-text">"Provide the final verified answer at the end."</span></div>
+            </div>
+            <div class="formula-example-box">
+              <code>"Before writing any code, draft the algorithm steps and identify edge cases."</code>
+            </div>
+          </div>
+
+          <!-- Formula 4: Negative Guardrails -->
+          <div class="formula-card">
+            <div class="formula-header">
+              <div class="formula-icon">🛡️</div>
+              <div>
+                <span class="formula-badge">Guardrail Control</span>
+                <h3 class="formula-title">Negative Constraints</h3>
+              </div>
+            </div>
+            <p class="formula-desc">Eliminates AI fluff, conversational filler, and unwanted libraries.</p>
+            <div class="formula-breakdown">
+              <div class="formula-step"><span class="formula-step-tag">Rule 1</span><span class="formula-step-text">"Do NOT use external npm packages; use native APIs only."</span></div>
+              <div class="formula-step"><span class="formula-step-tag">Rule 2</span><span class="formula-step-text">"Do NOT include conversational preambles like 'Sure! Here is...'."</span></div>
+              <div class="formula-step"><span class="formula-step-tag">Rule 3</span><span class="formula-step-text">"Never use placeholder '// write code here' comments."</span></div>
+            </div>
+            <div class="formula-example-box">
+              <code>"Negative constraints cut through token waste and ensure production ready code."</code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           MODULE 4: CHALLENGES ARENA
+           ======================================================== -->
+      <section id="moduleArena" class="module-view">
+        <div class="section-intro">
+          <span class="section-tag"><span>🏆</span> Interactive Skill Drills</span>
+          <h2 class="section-title">Prompt Engineering Challenge Arena</h2>
+          <p class="section-description">
+            Can you upgrade these notoriously bad, vague prompts into 85+ score master prompts? Select a challenge to load it into the coach.
+          </p>
+        </div>
+
+        <div class="arena-grid">
+          <!-- Challenge 1 -->
+          <div class="challenge-card">
+            <div class="challenge-status-badge">⚡ Level 1: Beginner</div>
+            <h3 class="challenge-title">The Vague Calculator</h3>
+            <p class="challenge-mission">Turn this 2-word lazy prompt into an enterprise-ready desktop or web calculator with error handling and keyboard listeners.</p>
+            <div class="challenge-vague-box">
+              <div class="vague-label">Vague User Prompt:</div>
+              <div class="vague-text">"make a calculator"</div>
+            </div>
+            <button class="launch-btn start-challenge-btn" data-vague-prompt="make a calculator" style="padding: 0.75rem 1.25rem; font-size: 0.95rem;" type="button">
+              Try This Challenge ⚔️
+            </button>
+          </div>
+
+          <!-- Challenge 2 -->
+          <div class="challenge-card">
+            <div class="challenge-status-badge">⚡ Level 2: Intermediate</div>
+            <h3 class="challenge-title">The Vague Bug Fixer</h3>
+            <p class="challenge-mission">Users constantly type "fix my code". Upgrade this prompt with error logs, expected behavior, and environment stack.</p>
+            <div class="challenge-vague-box">
+              <div class="vague-label">Vague User Prompt:</div>
+              <div class="vague-text">"fix my python script it is broken"</div>
+            </div>
+            <button class="launch-btn start-challenge-btn" data-vague-prompt="fix my python script it is broken" style="padding: 0.75rem 1.25rem; font-size: 0.95rem;" type="button">
+              Try This Challenge ⚔️
+            </button>
+          </div>
+
+          <!-- Challenge 3 -->
+          <div class="challenge-card">
+            <div class="challenge-status-badge">⚡ Level 3: Advanced</div>
+            <h3 class="challenge-title">The Image Art Director</h3>
+            <p class="challenge-mission">Upgrade a generic image prompt into an award-winning cinematic still complete with focal lengths, lighting, and textures.</p>
+            <div class="challenge-vague-box">
+              <div class="vague-label">Vague User Prompt:</div>
+              <div class="vague-text">"draw a sports car in neon street"</div>
+            </div>
+            <button class="launch-btn start-challenge-btn" data-vague-prompt="draw a sports car in neon street" style="padding: 0.75rem 1.25rem; font-size: 0.95rem;" type="button">
+              Try This Challenge ⚔️
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- API Key Settings Modal -->
+  <div id="apiKeyModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">AI Engine Settings</h3>
+        <button id="closeApiKeyModal" class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+        Prompt Tutor has a built-in neural simulation engine that works 100% out of the box with zero setup! You can optionally enter your Google Gemini API key to enable live LLM queries.
+      </p>
+      <div style="margin-bottom: 1.5rem;">
+        <label for="apiKeyInput" style="display: block; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.4rem;">
+          Gemini API Key (Optional)
+        </label>
+        <input 
+          type="password" 
+          id="apiKeyInput" 
+          class="welcome-input" 
+          placeholder="AIzaSy..." 
+          style="padding-left: 1.2rem; font-family: monospace;"
+        />
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button id="saveApiKeyBtn" class="launch-btn" style="padding: 0.75rem 1.5rem; font-size: 0.95rem;" type="button">
+          Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notification -->
+  <div id="toastNotification" class="toast-notification">
+    <span>✨</span>
+    <span id="toastMessage">Notification</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="static/js/sound-effects.js"></script>
+  <script src="static/js/ai-engine.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>
